@@ -50,7 +50,7 @@
 完成設定後，您可以執行您的主腳本：
 
 ```bash
-python main.py
+python web_app.py
 ```
 
 ## 停用虛擬環境

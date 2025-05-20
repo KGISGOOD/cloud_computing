@@ -14,7 +14,6 @@ def azure_text_to_speech(text):
         "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3",
         "User-Agent": "python-client"
     }
-
     ssml = f"""
     <speak version='1.0' xml:lang='zh-TW'>
         <voice xml:lang='zh-TW' xml:gender='Female' name='zh-TW-HsiaoChenNeural'>
@@ -22,7 +21,6 @@ def azure_text_to_speech(text):
         </voice>
     </speak>
     """
-
     response = requests.post(endpoint, headers=headers, data=ssml.encode("utf-8"))
 
     if response.status_code == 200:
@@ -31,6 +29,7 @@ def azure_text_to_speech(text):
         raise Exception(f"語音合成失敗：{response.status_code} - {response.text}")
 
 # 主程式邏輯
+# 這個 if __name__ == "__main__": 區塊是程式的進入點
 if __name__ == "__main__":
     text = input("請輸入要轉語音的文字：")
     try:
