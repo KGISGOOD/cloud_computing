@@ -1,5 +1,7 @@
 import os
 import time
+import requests
+import os
 from flask import Flask, render_template, request
 from dotenv import load_dotenv
 from azure.cognitiveservices.vision.computervision import ComputerVisionClient
@@ -67,9 +69,6 @@ def get_detected_objects(image_url):
     
 
 
-
-import requests
-import os
 
 # 設定 API 金鑰與端點
 FACE_KEY = os.getenv("FACE_KEY")
