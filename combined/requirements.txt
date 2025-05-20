@@ -2,3 +2,4 @@ flask
 python-dotenv
 azure-cognitiveservices-vision-computervision
 requests
+azure-ai-translation-text==1.0.0b1
