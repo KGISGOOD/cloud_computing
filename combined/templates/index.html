@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>電腦視覺 + 翻譯整合服務</title>
+</head>
+<body>
+    <h1>圖片描述與翻譯</h1>
+    <form method="POST">
+        <input type="text" name="image_url" placeholder="請輸入圖片網址" value="{{ image_url }}" style="width:60%">
+        <select name="to_language">
+            <option value="zh-Hant" {% if to_language == "zh-Hant" %}selected{% endif %}>中文（繁體）</option>
+            <option value="en" {% if to_language == "en" %}selected{% endif %}>英文</option>
+            <option value="ja" {% if to_language == "ja" %}selected{% endif %}>日文</option>
+        </select>
+        <button type="submit">送出</button>
+    </form>
+    {% if description %}
+        <p><b>圖片描述：</b>{{ description }}</p>
+    {% endif %}
+    {% if translated %}
+        <p><b>翻譯結果：</b>{{ translated }}</p>
+    {% endif %}
+</body>
+</html>
