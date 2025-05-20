@@ -51,3 +51,14 @@
 
 ```bash
 python main.py
+```
+
+## 停用虛擬環境
+當您完成專案工作後，可以停用虛擬環境：
+
+```bash
+deactivate
+```
+
+
+    
