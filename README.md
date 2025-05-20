@@ -4,9 +4,9 @@
 
 **安裝依賴套件：**
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+```bash
+pip install -r requirements.txt
+```
 
 ## 執行專案
 
