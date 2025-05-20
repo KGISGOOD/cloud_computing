@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>圖片描述與翻譯整合服務</title>
+</head>
+
+<body>
+
+
+
+    <form method="POST">
+        <label for="image_url">圖片網址：</label>
+        <input type="text" name="image_url" required>
+
+        <label for="function">選擇分析功能：</label>
+        <select name="function">
+            <option value="describe">圖片描述生成</option>
+            <option value="ocr">文字識別（OCR）</option>
+            <option value="objects">物件偵測</option>
+            <option value="faces">人臉偵測</option>
+        </select>
+
+        <button type="submit">分析</button>
+    </form>
+
+
+    <h2>分析結果：</h2>
+    <img src="{{ image_url }}" alt="圖片預覽" style="max-width:400px;">
+    <p>{{ description }}</p>
+
+
+</body>
+
+</html>
