@@ -11,7 +11,8 @@ git clone https://github.com/KGISGOOD/cloud_computing.git
 
 cd combined
 ```
-## 🚀 啟動虛擬環境
+## 🚀 啟動虛擬環境(不必要)
+
 ```bash
 # macOS/Linux
 source venv/bin/activate
