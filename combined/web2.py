@@ -169,7 +169,7 @@ def index():
     image_url = ""
     selected_function = ""
     translated = ""
-    src_language = "en"
+    ui_src_language = "en"
     dst_language = "zh-Hant"
 
     if request.method == "POST":
