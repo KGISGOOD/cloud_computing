@@ -25,7 +25,7 @@ pip install -r requirements.txt
 ```
 ## 🌐 啟動應用程式
 ```bash
-python web.py
+python web3.py
 ```
 ## ⏹️ 停止虛擬環境
 ```bash
