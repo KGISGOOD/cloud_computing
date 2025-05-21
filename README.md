@@ -1,20 +1,33 @@
-# 專案設定與執行（apple 文字轉語音）
+# cloud_computing
 
-本指南將引導您如何設定 Python 虛擬環境、安裝必要的依賴套件，以及執行 `web_app.py` 腳本。
+# 使用指南
 
-**安裝依賴套件：**
+本項目基於 Python，並依賴虛擬環境來管理依賴項。請按照以下步驟執行：
 
+## 📂 克隆倉庫
+```bash
+git clone https://github.com/KGISGOOD/cloud_computing.git
+
+
+cd combined
+```
+## 🚀 啟動虛擬環境
+```bash
+# macOS/Linux
+source venv/bin/activate
+
+# Windows
+venv\Scripts\activate
+```
+## 📦 安裝依賴
 ```bash
 pip install -r requirements.txt
 ```
-
-## 執行專案
-
-完成設定後，您可以執行您的主腳本：
-
+## 🌐 啟動應用程式
 ```bash
-python web_app.py
+python web.py
 ```
-
-
-    
+## ⏹️ 停止虛擬環境
+```bash
+deactivate
+```
