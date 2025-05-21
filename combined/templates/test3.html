@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>圖片描述與翻譯整合服務</title>
+</head>
+
+<body>
+
+
+
+    <form method="POST">
+        <label for="image_url">圖片網址：</label>
+        <input type="text" name="image_url" required>
+
+        <label for="function">選擇分析功能：</label>
+        <select name="function">
+            <option value="describe">圖片描述生成</option>
+            <option value="ocr">文字識別（OCR）</option>
+            <option value="objects">物件偵測</option>
+            <option value="faces">人臉偵測</option>
+        </select>
+        <br><br>
+        <label for="src_language">來源語言：</label>
+        <select name="src_language" id="src_language">
+            <option value="" {% if src_language=='' %}selected{% endif %}>無</option>
+            <option value="en" {% if src_language=='en' %}selected{% endif %}>英文 (English)</option>
+            <option value="zh-Hans" {% if src_language=='zh-Hans' %}selected{% endif %}>中文（繁體）</option>
+            <option value="ja" {% if src_language=='ja' %}selected{% endif %}>日文 (日本語)</option>
+            <option value="ko" {% if src_language=='ko' %}selected{% endif %}>韓文 (한국어)</option>
+        </select>
+        &nbsp;
+        <label for="dst_language">目標語言：</label>
+        <select name="dst_language">
+            <option value="zh-Hant" {% if dst_language=="zh-Hant" %}selected{% endif %}>中文（繁體）</option>
+            <option value="en" {% if dst_language=="en" %}selected{% endif %}>英文</option>
+            <option value="ja" {% if dst_language=="ja" %}selected{% endif %}>日文</option>
+            <option value="ko" {% if src_language=='ko' %}selected{% endif %}>韓文 (한국어)</option>
+        </select>
+
+        &nbsp;&nbsp;<button type="submit">分析並翻譯</button>
+
+    </form>
+
+
+    <h2>結果：</h2>
+    {% if image_url %}
+    <img src="{{ image_url }}" alt="圖片預覽" style="max-width:400px;">
+    {% endif %}
+
+    <p><b>圖片描述：</b>{{ description }}</p>
+    {% if translated %}
+    <h3>翻譯結果：</h3>
+    <p>{{ translated }}</p>
+
+    {% if audio_url %}
+    <h4>播放翻譯後的語音：</h4>
+    <!-- 隱藏的 audio 元素，用於載入音訊 -->
+    <audio id="translatedAudioPlayer" src="{{ audio_url }}">
+        您的瀏覽器不支援音訊播放。
+    </audio>
+    <!-- 播放按鈕 -->
+    <button type="button" onclick="document.getElementById('translatedAudioPlayer').play()">播放語音</button>
+    <br><br>
+    {% endif %}
+    {% endif %}
+
+</body>
+
+</html>
