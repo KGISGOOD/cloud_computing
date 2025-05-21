@@ -6,7 +6,7 @@
 
 ## 📂 克隆倉庫
 ```bash
-git clone <repository-url>
+git clone https://github.com/KGISGOOD/cloud_computing.git
 
 
 cd combined
