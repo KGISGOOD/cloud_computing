@@ -1,12 +1,41 @@
-# /full/path/to/web_app.py
 import os # 匯入 os 模組用於路徑操作
 import time # 匯入 time 模組用於產生時間戳記
-from flask import Flask, render_template, request, jsonify, url_for # 匯入 url_for
-# 假設 main.py 與 web_app.py 在同一個資料夾，或者 main.py 所在的路径已加入 sys.path
-# 如果 main.py 在不同路徑，你可能需要調整 import 方式，例如：
-# import sys
-# sys.path.append('/path/to/directory_containing_main_py')
-from main import azure_text_to_speech # 這裡的 'main' 是指 main.py 檔案
+from flask import Flask, render_template, request, jsonify, url_for 
+
+import requests
+import io
+from playsound import playsound  # 安裝方式：pip install playsound==1.2.2
+
+# Azure 語音合成函式
+def azure_text_to_speech(text):
+    subscription_key = "BRjihnIspO9Ntn3NaCd9bTMwZI2JGD5t6Ihp3WQGDHMyrlTNeOmQJQQJ99BEACYeBjFXJ3w3AAAYACOGy2X0"
+    region = "eastus"
+    endpoint = f"https://{region}.tts.speech.microsoft.com/cognitiveservices/v1"
+
+    headers = {
+        "Ocp-Apim-Subscription-Key": subscription_key,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3",
+        "User-Agent": "python-client"
+    }
+    ssml = f"""
+    <speak version='1.0' xml:lang='zh-TW'>
+        <voice xml:lang='zh-TW' xml:gender='Female' name='zh-TW-HsiaoChenNeural'>
+            {text}
+        </voice>
+    </speak>
+    """
+    response = requests.post(endpoint, headers=headers, data=ssml.encode("utf-8"))
+
+    if response.status_code == 200:
+        return response.content
+    else:
+        raise Exception(f"語音合成失敗：{response.status_code} - {response.text}")
+
+
+
+
+
 
 app = Flask(__name__)
 
