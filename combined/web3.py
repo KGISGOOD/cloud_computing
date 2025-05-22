@@ -8,62 +8,63 @@ from azure.ai.translation.text.models import InputTextItem
 import requests
 import time
 
-app = Flask(__name__)
+app = Flask(__name__) #建立一個 Flask app 實例
 
 # 載入 .env
 load_dotenv()
 
-# Computer Vision 設定
+# Azure 服務金鑰與端點設定
+# 電腦視覺 
 VISION_KEY = os.getenv("VISION_KEY")
 VISION_ENDPOINT = os.getenv("VISION_ENDPOINT")
 
-# Translator 設定（與其他資料夾一致）
+# 翻譯 
 KEY = os.getenv("KEY")
 REGION = os.getenv("REGION")
 ENDPOINT = os.getenv("ENDPOINT")
 
-# Text-to-Speech 設定
+# 語音合成 
 TTS_KEY = os.getenv("TTS_KEY")
 TTS_REGION = os.getenv("TTS_REGION")
 
 
-
+# 用於調用 電腦視覺 API
 # 初始化 Computer Vision Client
 vision_client = ComputerVisionClient(
     VISION_ENDPOINT, CognitiveServicesCredentials(VISION_KEY)
 )
 
-
+# 用於調用 翻譯 API
 translator_client = TextTranslationClient(
     endpoint=ENDPOINT,
     credential=TranslatorCredential(KEY, REGION)
 )
 
-
-
-# Azure 語音合成函式
+# 將輸入的文字 text_to_speak，用 Azure 的語音合成（TTS）轉換成語音檔
 def azure_text_to_speech(text_to_speak, target_lang_code_from_form):
     """
     Generates speech from text using Azure TTS.
     target_lang_code_from_form: Language code like "en", "zh-Hant", "ja", etc.
     """
+    # 確認語音合成服務的金鑰與區域是否存在
     if not TTS_KEY or not TTS_REGION:
         print("Error: TTS_KEY or TTS_REGION environment variables not set.")
         return None
-    
+    # 如果輸入的文字是空的，無法合成，直接返回 None
     if not text_to_speak:
         print("Error: Text to speak is empty.")
         return None
 
+    # 根據區域組合出 Azure TTS 服務的 API endpoint
     endpoint = f"https://{TTS_REGION}.tts.speech.microsoft.com/cognitiveservices/v1"
     headers = {
-        "Ocp-Apim-Subscription-Key": TTS_KEY,
-        "Content-Type": "application/ssml+xml",
-        "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3",
-        "User-Agent": "python-requests" # Changed User-Agent slightly for clarity
+        "Ocp-Apim-Subscription-Key": TTS_KEY,# 認證的金鑰
+        "Content-Type": "application/ssml+xml", # SSML（語音合成標記語言）格式
+        "X-Microsoft-OutputFormat": "audio-16khz-32kbitrate-mono-mp3",# 指定輸出音訊格式為 16kHz、32kbps、單聲道 mp3
+        "User-Agent": "python-requests" # 用於標示請求端
     }
-
-    # Mapping from form language codes to SSML language and voice name
+    # SSML:Speech Synthesis Markup Language（語音合成標記語言)，用來控制文字轉語音（TTS）時的語音合成效果。
+    # 根據使用者傳入的語言代碼，對應 Azure SSML 所需的語言標籤與聲音名稱
     lang_voice_map = {
         "en": ("en-US", "en-US-JennyNeural"),
         "zh-Hans": ("zh-CN", "zh-CN-XiaoxiaoNeural"),
@@ -71,11 +72,13 @@ def azure_text_to_speech(text_to_speak, target_lang_code_from_form):
         "ja": ("ja-JP", "ja-JP-NanamiNeural"),
         "ko": ("ko-KR", "ko-KR-SunHiNeural"),
     }
-    default_ssml_lang = "en-US" # Default if target language not in map
+    # 如果找不到匹配，使用英文語音作為預設
+    default_ssml_lang = "en-US" 
     default_ssml_voice = "en-US-JennyNeural"
 
     ssml_lang, ssml_voice_name = lang_voice_map.get(target_lang_code_from_form, (default_ssml_lang, default_ssml_voice))
 
+    # 使用 SSML 格式來描述語音合成的內容
     ssml = f"""
     <speak version='1.0' xml:lang='{ssml_lang}'>
         <voice xml:lang='{ssml_lang}' name='{ssml_voice_name}'>
@@ -83,6 +86,8 @@ def azure_text_to_speech(text_to_speak, target_lang_code_from_form):
         </voice>
     </speak>
     """
+
+    # 發送 HTTP POST 請求並處理回應
     try:
         response = requests.post(endpoint, headers=headers, data=ssml.encode("utf-8"))
         response.raise_for_status() # Will raise an HTTPError for bad status codes
