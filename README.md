@@ -44,12 +44,6 @@
 docker image build -t final:latest .
 ```
 
-📷 *範例圖：*
-
-
-![建構映像檔畫面](combined/img/002.png)
-
-
 ---
 
 ## 🖥️ 5. 執行本地容器
@@ -62,11 +56,9 @@ docker container run -d --name final -p 8080:8080 final:latest
 
 ---
 
-## 📦 6. 建立最終資源群組
+## 📦 6. 創建一個資源群組
 
-```bash
-az group create --name final_project --location [地區]
-```
+創建一個資源群組 final_project (用來存放我們的最終成果)
 
 ---
 
@@ -77,22 +69,15 @@ az group create --name final_project --location [地區]
 📷 *範例圖：*
 
 
-![建立 ACR 畫面](combined/img/003.png)
-
+![建構映像檔畫面](combined/img/002.png)
 
 ---
 
-## 🔐 8. 啟用 ACR 管理使用者並取得金鑰
-
-前往 **ACR > 存取金鑰** 頁面，啟用「管理使用者」並複製以下資訊：
-
-- 登入伺服器（Login Server）
-- 使用者名稱（Username）
-- 密碼（Password or Password2）
+## 🔐 8. 啟用 Azure Container Registry 的管理使用者，取得金鑰
 
 📷 *範例圖：*
 
-![取得 ACR 金鑰](combined/img/004.png)
+![取得 ACR 金鑰](combined/img/003.png)
 
 ---
 
@@ -115,7 +100,7 @@ Login Succeeded
 
 ---
 
-## 🛠️ 10. 建構可上傳的映像檔
+## 🛠️ 10. 建立自定義的映像檔
 
 ```bash
 docker image build -t finalpodcast.azurecr.io/finalpodcast:latest .
@@ -123,7 +108,7 @@ docker image build -t finalpodcast.azurecr.io/finalpodcast:latest .
 
 ---
 
-## ☁️ 11. 上傳映像檔至 ACR
+## ☁️ 11. 將Docker映像檔上傳到 Azure Container Registry
 
 ```bash
 docker image push finalpodcast.azurecr.io/finalpodcast:latest
@@ -140,11 +125,16 @@ docker image push finalpodcast.azurecr.io/finalpodcast:latest
 ```
 http://[公用 IP 位址]:8080
 ```
+
+📷 *範例圖：*
+
+![建立容器執行個體](combined/img/004.png)
+
 ---
 
 ## ✅ 結語
 
-你已成功將 AI 專案部署至 Azure 平台，恭喜恭喜🎊
+你已成功將專案部署至 Azure 平台，恭喜恭喜🎊
 
 
 
