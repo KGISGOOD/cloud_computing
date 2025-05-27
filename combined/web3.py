@@ -259,8 +259,7 @@ def index():
             # Check for critical processing errors from vision functions
             critical_error_messages = [
                 "無法讀取圖片，請換一張",
-                "⚠️ API 回應錯誤", # For face detection errors
-                "⚠️ 未偵測到人臉"
+
             ]
             is_critical_error = any(msg in description for msg in critical_error_messages if description)
 
