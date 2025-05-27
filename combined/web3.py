@@ -93,7 +93,7 @@ def azure_text_to_speech(text_to_speak, target_lang_code_from_form):
         response.raise_for_status() # Will raise an HTTPError for bad status codes
         return response.content
     except requests.exceptions.RequestException as e:
-        print(f"Speech synthesis API error: {e}")
+        print(f"Speech synthesis API error")
         return None
 
 
@@ -112,7 +112,7 @@ def translate_text(text, src_language, dst_language):
         )
         return responses[0].translations[0].text
     except Exception as e:
-        return f"翻譯時發生錯誤：{e}"
+        return f"翻譯失敗"
 
 
 # 圖片描述生成
@@ -168,10 +168,6 @@ def get_detected_objects(image_url):
 FACE_KEY = os.getenv("FACE_KEY")
 FACE_ENDPOINT = os.getenv("FACE_ENDPOINT")
 
-# 確保環境變數已設定
-if not FACE_KEY or not FACE_ENDPOINT:
-    raise ValueError("⚠️ 環境變數 FACE_KEY 或 FACE_ENDPOINT 未設定，請檢查 .env 檔案或系統環境變數。")
-
 def get_detected_faces(image_url):
     """ 使用 Azure Face API 偵測人臉屬性 """
     try:
@@ -200,7 +196,7 @@ def get_detected_faces(image_url):
 
         # 確保 API 回應成功
         if response.status_code != 200:
-            return f"⚠️ API 回應錯誤：{response.status_code} - {response.text}"
+            return f"⚠️ API 回應錯誤"
 
         # 解析 API 回應
         faces_result = response.json()
