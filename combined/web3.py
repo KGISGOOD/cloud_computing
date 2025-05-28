@@ -196,7 +196,7 @@ def get_detected_faces(image_url):
 
         # 確保 API 回應成功
         if response.status_code != 200:
-            return f"⚠️ API 回應錯誤"
+            return f"⚠️ 失敗，請換一張圖片"
 
         # 解析 API 回應
         faces_result = response.json()
@@ -207,6 +207,7 @@ def get_detected_faces(image_url):
 
         # 提取人臉屬性資訊
         faces_detected = [
+            f"Accessories: {', '.join([acc['type'] for acc in face['faceAttributes'].get('accessories', [])]) if face['faceAttributes'].get('accessories') else 'None'}, "
             f"Glasses type: {face['faceAttributes'].get('glasses', 'Unknown')}, "
             f"Blur level: {face['faceAttributes'].get('blur', {}).get('blurLevel', 'Unknown')}"
             for face in faces_result

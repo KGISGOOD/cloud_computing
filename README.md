@@ -189,8 +189,8 @@ http://[公用 IP 位址]:8080
     </td>
     <td align="center">
       <strong>人臉偵測</strong><br/>
-      辨識是否配戴眼鏡及圖片的模糊程度。<br/>
-      <img src="combined/img/f4.png" alt="人臉偵測" width="300"/>
+      辨識是否有配件、眼鏡及圖片的模糊程度。<br/>
+      <img src="combined/img/123.png" alt="人臉偵測" width="300"/>
     </td>
   </tr>
 </table>
@@ -204,7 +204,7 @@ http://[公用 IP 位址]:8080
     <td align="center" colspan="2">
       支援多種語言的翻譯功能，使用者可自訂目標語言，系統將自動翻譯輸入內容。<br/>
       <img src="combined/img/f4t2.png" alt="翻譯工具" width="400"/>
-      <img src="combined/img/f4t.png" alt="翻譯工具" width="300"/>
+      <img src="combined/img/12.png" alt="翻譯工具" width="300"/>
     </td>
   </tr>
 </table>
@@ -303,6 +303,7 @@ def get_detected_objects(image_url):
 1. 輸入圖片 URL。
 2. 呼叫 Face API 的 `/detect` 端點，並要求回傳人臉屬性（如 glasses、blur 等）。
 3. 若成功偵測到人臉，則回傳每張臉的屬性摘要：
+   - 配件（Accessories）
    - 眼鏡類型（Glasses type）
    - 模糊程度（Blur level）
 4. 若無偵測到人臉，回傳提示：`⚠️ 未偵測到人臉`
@@ -337,7 +338,7 @@ def get_detected_faces(image_url):
 
         # 確保 API 回應成功
         if response.status_code != 200:
-            return f"⚠️ API 回應錯誤：{response.status_code} - {response.text}"
+            return f"⚠️ 失敗，請換一張圖片"
 
         # 解析 API 回應
         faces_result = response.json()
@@ -348,6 +349,7 @@ def get_detected_faces(image_url):
 
         # 提取人臉屬性資訊
         faces_detected = [
+            f"Accessories: {', '.join([acc['type'] for acc in face['faceAttributes'].get('accessories', [])]) if face['faceAttributes'].get('accessories') else 'None'}, "
             f"Glasses type: {face['faceAttributes'].get('glasses', 'Unknown')}, "
             f"Blur level: {face['faceAttributes'].get('blur', {}).get('blurLevel', 'Unknown')}"
             for face in faces_result
@@ -474,7 +476,7 @@ def azure_text_to_speech(text_to_speak, target_lang_code_from_form):
       <sub>物件偵測</sub>
     </td>
     <td align="center">
-      <img src="combined/img/d4.png" alt="成果圖4" width="500"/><br/>
+      <img src="combined/img/123.png" alt="成果圖4" width="500"/><br/>
       <sub>人臉偵測</sub>
     </td>
   </tr>
@@ -484,9 +486,11 @@ def azure_text_to_speech(text_to_speak, target_lang_code_from_form):
 圖片範例連結
 ### 🖼️ 圖片描述  
 `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtYy6_wCdBjxSs_ZpG2FWGgGxWubtDxupgPA&s`
+`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4rAonJ7WjvZZojimTo6UdcOw6-vii2wyUYw&s`
 
 ### 📝 文字辨識  
 `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVCtQwEOsKS7QJ23IyTQNFHAZhd2_DdXRnDA&s`
+`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiNu7XAJmHJ5m2qAOtX6J6MhVrPpEFom8EVw&s`
 
 ### 🎯 物件偵測  
 `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpty5AGIaqoSLQTXCbHvs_rJO7qhqV_rDnVA&s`  
