@@ -66,16 +66,18 @@ def azure_text_to_speech(text_to_speak, target_lang_code_from_form):
     # SSML:Speech Synthesis Markup Language（語音合成標記語言)，用來控制文字轉語音（TTS）時的語音合成效果。
     # 根據使用者傳入的語言代碼，對應 Azure SSML 所需的語言標籤與聲音名稱
     lang_voice_map = {
-        "en": ("en-US", "en-US-JennyNeural"),
-        "zh-Hans": ("zh-CN", "zh-CN-XiaoxiaoNeural"),
-        "zh-Hant": ("zh-TW", "zh-TW-HsiaoChenNeural"),
-        "ja": ("ja-JP", "ja-JP-NanamiNeural"),
-        "ko": ("ko-KR", "ko-KR-SunHiNeural"),
+        "en": ("en-US", "en-US-JennyNeural"),  # 英文
+        "zh-Hans": ("zh-CN", "zh-CN-XiaoxiaoNeural"),  # 簡體中文
+        "zh-Hant": ("zh-TW", "zh-TW-HsiaoChenNeural"),  # 繁體中文
+        "ja": ("ja-JP", "ja-JP-NanamiNeural"),  # 日文
+        "ko": ("ko-KR", "ko-KR-SunHiNeural"),  # 韓文
     }
+
     # 如果找不到匹配，使用英文語音作為預設
     default_ssml_lang = "en-US" 
     default_ssml_voice = "en-US-JennyNeural"
 
+    # 從 lang_voice_map 獲取指定語言 (target_lang_code_from_form) 的 SSML 語言標籤和語音；若無則使用預設值
     ssml_lang, ssml_voice_name = lang_voice_map.get(target_lang_code_from_form, (default_ssml_lang, default_ssml_voice))
 
     # 使用 SSML 格式來描述語音合成的內容
@@ -196,7 +198,7 @@ def get_detected_faces(image_url):
 
         # 確保 API 回應成功
         if response.status_code != 200:
-            return f"⚠️ API 回應錯誤"
+            return f"⚠️ 失敗，請換一張圖片"
 
         # 解析 API 回應
         faces_result = response.json()
@@ -207,6 +209,7 @@ def get_detected_faces(image_url):
 
         # 提取人臉屬性資訊
         faces_detected = [
+            f"Accessories: {', '.join([acc['type'] for acc in face['faceAttributes'].get('accessories', [])]) if face['faceAttributes'].get('accessories') else 'None'}, "
             f"Glasses type: {face['faceAttributes'].get('glasses', 'Unknown')}, "
             f"Blur level: {face['faceAttributes'].get('blur', {}).get('blurLevel', 'Unknown')}"
             for face in faces_result
@@ -270,7 +273,13 @@ def index():
                         os.makedirs(static_dir, exist_ok=True) # Ensure static directory exists
                         
                         audio_filename = "translated_speech.mp3"
+                        
                         audio_file_path = os.path.join(static_dir, audio_filename)
+                        with open(audio_file_path, "wb") as f:
+                            f.write(audio_data)
+                        audio_url = url_for('static', filename=audio_filename)
+
+
                         try:
                             with open(audio_file_path, "wb") as f:
                                 f.write(audio_data)
