@@ -213,17 +213,16 @@ http://[公用 IP 位址]:8080
 
 ### 🔊 文字轉語音
 
-<table>
+<table style="margin: auto; text-align: left; width: 100%;">
   <tr>
-    <td align="center" colspan="2">
-      將翻譯後的文字轉換為語音並播放，提升使用者的互動體驗。<br/>
-      <img src="combined/img/101.png" alt="文字轉語音" width="200"/>
+    <td colspan="2">
+      <p style="font-size: 16px; margin-bottom: 10px;">
+        將翻譯後的文字轉換為語音並播放，提升使用者的互動體驗。
+      </p>
+      <img src="combined/img/101.png" alt="文字轉語音" style="width: 100%; max-width: 600px;"/>
     </td>
   </tr>
 </table>
-
-
-
 
 
 ## 程式碼說明
