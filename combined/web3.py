@@ -273,7 +273,13 @@ def index():
                         os.makedirs(static_dir, exist_ok=True) # Ensure static directory exists
                         
                         audio_filename = "translated_speech.mp3"
+                        
                         audio_file_path = os.path.join(static_dir, audio_filename)
+                        with open(audio_file_path, "wb") as f:
+                            f.write(audio_data)
+                        audio_url = url_for('static', filename=audio_filename)
+
+
                         try:
                             with open(audio_file_path, "wb") as f:
                                 f.write(audio_data)

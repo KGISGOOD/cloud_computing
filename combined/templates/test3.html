@@ -3,54 +3,100 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>圖片描述與翻譯整合服務</title>
+    <title>AI圖口秀</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
             margin: 0;
             padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
         }
 
         .container {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
         }
 
-        .form-container {
-            width: 45%;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
+        .form-container,
         .result-container {
-            width: 50%;
-            padding: 20px;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 480px;
         }
 
         label {
             display: block;
-            margin-top: 10px;
+            margin-top: 15px;
+            font-weight: bold;
         }
 
         input[type="text"],
         select {
             width: 100%;
-            padding: 6px;
-            margin-top: 5px;
+            padding: 8px 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
         }
 
         button {
-            margin-top: 15px;
-            padding: 10px 20px;
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
         }
 
         img {
             max-width: 100%;
-            height: auto;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        audio {
+            width: 100%;
             margin-top: 10px;
+        }
+
+        .audio-box {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #fafafa;
+        }
+
+        h2,
+        h3,
+        h4 {
+            color: #34495e;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -60,6 +106,7 @@
     <h1>AI 圖口秀</h1>
 
     <div class="container">
+
         <!-- 表單區塊 -->
         <div class="form-container">
             <form method="POST">
@@ -99,8 +146,7 @@
         {% if image_url %}
         <div class="result-container">
             <h2>結果：</h2>
-
-            <img src="{{ image_url }}" >
+            <img src="{{ image_url }}">
 
             <p><b>圖片描述：</b>{{ description }}</p>
 
@@ -110,15 +156,15 @@
 
             {% if audio_url %}
             <h4>播放翻譯後的語音：</h4>
-            <audio id="translatedAudioPlayer" src="{{ audio_url }}">
-                您的瀏覽器不支援音訊播放。
-            </audio>
-            <button type="button" onclick="document.getElementById('translatedAudioPlayer').play()">播放語音</button>
+            <div class="audio-box">
+                <audio id="translatedAudioPlayer" src="{{ audio_url }}" controls>
+                    您的瀏覽器不支援音訊播放。
+                </audio>
+            </div>
             {% endif %}
             {% endif %}
         </div>
         {% endif %}
-
     </div>
 
 </body>
